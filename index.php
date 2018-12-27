@@ -21,7 +21,7 @@ $app->get('/', function() {
     $page->setTpl("index");
 });
 
-//rota da pagina admin
+//GET Tela da pagina admin
 $app->get('/admin', function() {
     
     User::verifyLogin();
@@ -29,7 +29,7 @@ $app->get('/admin', function() {
     $page->setTpl("index");
 });
 
-//rota da página login
+//GET Tela da página login
 $app->get('/admin/login', function(){
 
     User::verifySession();
@@ -41,7 +41,7 @@ $app->get('/admin/login', function(){
     $page->setTpl("login");
 });
 
-//rota POST login
+//POST Login
 $app->post('/admin/login', function(){
    
     User::login($_POST["login"], $_POST["password"]);
@@ -50,11 +50,83 @@ $app->post('/admin/login', function(){
     exit;
 });
 
+//GET Logout
 $app->get('/admin/logout', function(){
     User::logout();
     header("Location: /admin/login");
     exit;
 });
+
+
+//GET QUE Lista todos os usuários
+$app->get('/admin/users', function(){
+
+    User::verifyLogin();
+
+    $page = new PageAdmin();
+
+    $page->setTpl("users");
+});
+
+//GET que Cria os usuários
+$app->get('/admin/users/create', function(){
+
+    User::verifyLogin();
+
+    $page = new PageAdmin();
+
+    $page->setTpl("users-create");
+});
+
+
+//GET QUE Lista todos os usuários
+$app->get('/admin/users', function(){
+
+    User::verifyLogin();
+
+    User::listAll();
+
+    $page = new PageAdmin();
+
+    $page->setTpl("users", array(
+    	"users"=>$users
+    ));
+});
+
+//GET Deletar o usuário
+$app->get('/admin/users/:iduser/delete', function($iduser){
+
+    User::verifyLogin();
+
+});
+
+//Get Edita Usuário
+$app->get('/admin/users/:iduser', function($iduser){
+
+    User::verifyLogin();
+
+    $page = new PageAdmin();
+
+    $page->setTpl("users-update");
+});
+
+//POST criar usários
+$app->post('/admin/users/create', function($iduser){
+
+    User::verifyLogin();
+   
+});
+
+
+//POST Edita Usuário
+$app->post('/admin/users/:iduser', function($iduser){
+
+    User::verifyLogin();
+
+});
+
+
+
 
 
 $app->run();
