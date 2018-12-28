@@ -1,10 +1,6 @@
-<?php
-
+<?php 
 namespace Hcode;
-
 use Rain\Tpl;
-
-
 class Page {
 	private $tpl;
 	private $options = [];
@@ -25,27 +21,22 @@ class Page {
 		$this->tpl = new Tpl;
 		$this->setData($this->options["data"]);
 		if ($this->options["header"] === true) $this->tpl->draw("header");
-    }
-    
-	public function setData($data = array())
+	}
+	private function setData($data = array())
 	{
 		foreach ($data as $key => $value) {
 			# code...
 			$this->tpl->assign($key, $value);
 		}
-    }
-    
+	}
 	public function setTpl($name, $data = array(), $returnHTML =false)
 	{
 		$this->setData($data);
-	    return $this->tpl->draw($name, $returnHTML);
-    }
-    
+	return $this->tpl->draw($name, $returnHTML);
+	}
 	//método para o footer
 	public function __destruct(){
 		if($this->options["footer"] === true) $this->tpl->draw("footer");
 	}
 }
-
-
-?>
+ ?>
